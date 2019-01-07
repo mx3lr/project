@@ -1,4 +1,4 @@
 from tkinter import*
 
 app=Tk()
-app.mainloop()  #windows wil stay until user exists
+app.mainloop()  #windows will stay until user exists
