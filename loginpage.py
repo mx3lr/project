@@ -49,12 +49,16 @@ class Login(tk.Frame):
         password.grid(row=1,column=1)
         p1.grid(row=1,column=2)
 
-        rem=Checkbutton(self, text="Remember password")
+        rem=tk.Checkbutton(self, text="Remember password")
         rem.grid(row=2, column=2)
 
-        loginbutton=Button(self, text='LOG IN', background='Purple',fg ="White")
+        loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White")
         loginbutton.grid(row=3, column=2)
 
-root=ChemVision()
-root.mainloop()
-                
+app=ChemVision()
+app.mainloop()
+
+
+##import sqlite3 as sql
+##
+##aaaaa sql.connect(name of database)
