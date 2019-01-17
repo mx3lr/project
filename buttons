@@ -1,0 +1,179 @@
+import tkinter as tk
+
+class ChemVision(tk.Tk):     #this is the base line, to the rest of the application, so everytime you add a page.
+    #to initialise upon a class, using this will run immediately. 
+    def __init__(self, *args, **kwargs):
+        
+        tk.Tk.__init__(self,*args, **kwargs)
+        #frame is the window
+        container=tk.Frame(self)
+        
+        container.pack(side="top", fill="both", expand=True)
+        
+        container.grid_rowconfigure(0,weight=1)
+        container.grid_columnconfigure(0,weight=1)
+        
+        self.frames={}
+
+        for c in (Login, MainMenu, Assessment, Achievement, ClassAverage, Teachers):
+            
+            frame = c(container, self)
+
+            self.frames[c]=frame
+
+            frame.grid(row=0, column=0, sticky="nesw")
+
+        self.show_frame(Login)
+
+    def show_frame(self,cont):
+        frame=self.frames[cont]
+        frame.tkraise()
+
+
+class Login(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        title = tk.Label(self, text="CHEMVISION", font=("Helvetica", 30), fg ="Purple")
+        title.grid(row=0,column=0)  #pack puts it into the window
+
+#pady=10, padx=10.. adding padding into code.
+
+
+        subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 10))
+        subheading.grid(row=1,column=0)
+        name=tk.Label(self, text='USERNAME:')
+        n1=tk.Entry(self, width=20)
+        name.grid(row=0,column=1)
+        n1.grid(row=0,column=2)
+
+        password=tk.Label(self, text='PASSWORD:')
+        p1=tk.Entry(self, show="*", width=20)
+        password.grid(row=1,column=1)
+        p1.grid(row=1,column=2)
+
+        rem=tk.Checkbutton(self, text="Remember password")
+        rem.grid(row=2, column=2)
+
+        loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White", command=lambda: controller.show_frame(MainMenu))
+        loginbutton.grid(row=3, column=2)
+
+class MainMenu(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        assbutton = tk.Button(self, text="ASSESSMENTS", width=20, fg ="Purple", command= lambda: controller.show_frame(Assessment))
+        assbutton.grid(row=1, column=3)
+
+        achbutton = tk.Button(self, text="ACHIEVEMENTS", width=20, fg ="Purple",command= lambda: controller.show_frame(Achievement))
+        achbutton.grid(row=2, column=3)
+   
+        classbutton = tk.Button(self, text="CLASS AVERAGE", width=20, fg ="Purple", command= lambda: controller.show_frame(ClassAverage))
+        classbutton.grid(row=3, column=3)
+
+        teachbutton = tk.Button(self, text="TEACHERS COMMENTS", width=20, fg ="Purple", command= lambda: controller.show_frame(Teachers))
+        teachbutton.grid(row=4, column=3)
+
+class Assessment(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        heading = tk.Label(self, text="ASSESSMENT", font=("Helvetica", 20))
+        heading.grid(row=0,column=1)
+
+        assbutton = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(MainMenu))
+        assbutton.grid(row=4, column=1)
+        
+        title1= tk.Label(self, text="Current tasks: ")
+
+        title1.grid(row=1, column=0,sticky = "E")
+
+        title2= tk.Label(self, text="Due this week: ")
+
+        title2.grid(row=2, column=0,sticky = "E")
+
+        title3= tk.Label(self, text="Due later: ")
+
+        title3.grid(row=3, column=0,sticky = "E")
+
+        title4= tk.Label(self, text="Progress: ")
+
+        title4.grid(row=4, column=0,sticky = "E")
+
+class Achievement(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        
+        heading = tk.Label(self, text="ACHIEVEMENTS", font=("Helvetica", 20))
+        heading.grid(row=0,column=1)
+
+        achbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
+        achbutton.grid(row=4, column=1)
+
+        title1= tk.Label(self, text="Highest score achieved: ")
+
+        title1.grid(row=1, column=0,sticky = "E")
+
+        title2= tk.Label(self, text="Started questions: ")
+
+        title2.grid(row=2, column=0,sticky = "E")
+
+        title3= tk.Label(self, text="Questions finished: ")
+
+        title3.grid(row=3, column=0,sticky = "E")
+
+class ClassAverage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        heading = tk.Label(self, text="CLASS AVERAGE", font=("Helvetica", 20))
+        heading.grid(row=0,column=1)
+
+        classbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
+        classbutton.grid(row=4, column=1)
+
+        title1= tk.Label(self, text="My average: ")
+
+        title1.grid(row=1, column=0,sticky = "E")
+
+        title2= tk.Label(self, text="Class overall average: ")
+
+        title2.grid(row=2, column=0,sticky = "E")
+
+
+class Teachers(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+
+        heading = tk.Label(self, text="TEACHERS COMMENT", font=("Helvetica", 20))
+        heading.grid(row=0,column=1)
+
+        teachbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
+        teachbutton.grid(row=4, column=1)
+
+        title1= tk.Label(self, text="What went well: ")
+
+        title1.grid(row=1, column=0,sticky = "E")
+
+        title2= tk.Label(self, text="What could you do next time to improve: ")
+
+        title2.grid(row=2, column=0,sticky = "E")
+
+
+
+        
+        
+
+app=ChemVision()
+app.mainloop()
+
+
+##import sqlite3 as sql
+##
+##aaaaa sql.connect(name of database)
