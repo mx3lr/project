@@ -35,12 +35,9 @@ class Login(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         title = tk.Label(self, text="CHEMVISION", font=("Helvetica", 30), fg ="Purple")
-        title.grid(row=0,column=0)  #pack puts it into the window
+        title.grid(row=0,column=0) 
 
-#pady=10, padx=10.. adding padding into code.
-
-
-        subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 10))
+        subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 15))
         subheading.grid(row=1,column=0)
         name=tk.Label(self, text='USERNAME:')
         n1=tk.Entry(self, width=20)
@@ -57,48 +54,47 @@ class Login(tk.Frame):
 
         loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White", command=lambda: controller.show_frame(MainMenu))
         loginbutton.grid(row=3, column=2)
-
 class MainMenu(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        assbutton = tk.Button(self, text="ASSESSMENTS", width=20, fg ="Purple", command= lambda: controller.show_frame(Assessment))
-        assbutton.grid(row=1, column=3)
+        assbutton = tk.Button(self, text="ASSESSMENTS",font=("Helvetica bold", 15), bg="White", command= lambda: controller.show_frame(Assessment))
+        assbutton.pack(pady=10, padx=20)
 
-        achbutton = tk.Button(self, text="ACHIEVEMENTS", width=20, fg ="Purple",command= lambda: controller.show_frame(Achievement))
-        achbutton.grid(row=2, column=3)
+        achbutton = tk.Button(self, text="ACHIEVEMENTS", font=("Helvetica bold", 15), bg="White",command= lambda: controller.show_frame(Achievement))
+        achbutton.pack(pady=10, padx=20)
    
-        classbutton = tk.Button(self, text="CLASS AVERAGE", width=20, fg ="Purple", command= lambda: controller.show_frame(ClassAverage))
-        classbutton.grid(row=3, column=3)
+        classbutton = tk.Button(self, text="CLASS AVERAGE", font=("Helvetica bold", 15), bg="White", command= lambda: controller.show_frame(ClassAverage))
+        classbutton.pack(pady=10, padx=20)
 
-        teachbutton = tk.Button(self, text="TEACHERS COMMENTS", width=20, fg ="Purple", command= lambda: controller.show_frame(Teachers))
-        teachbutton.grid(row=4, column=3)
+        teachbutton = tk.Button(self, text="TEACHERS COMMENTS", font=("Helvetica bold", 15),bg="White", command= lambda: controller.show_frame(Teachers))
+        teachbutton.pack(pady=10, padx=20)
 
 class Assessment(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        heading = tk.Label(self, text="ASSESSMENT", font=("Helvetica", 20))
+        heading = tk.Label(self, text="ASSESSMENT", font=("Helvetica", 30), fg ="Purple")
         heading.grid(row=0,column=1)
 
         assbutton = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(MainMenu))
-        assbutton.grid(row=4, column=1)
+        assbutton.grid(row=5, column=1)
         
-        title1= tk.Label(self, text="Current tasks: ")
+        title1= tk.Label(self, text="Current tasks: ", font=("Helvetica", 15))
 
         title1.grid(row=1, column=0,sticky = "E")
 
-        title2= tk.Label(self, text="Due this week: ")
+        title2= tk.Label(self, text="Due this week: ", font=("Helvetica", 15))
 
         title2.grid(row=2, column=0,sticky = "E")
 
-        title3= tk.Label(self, text="Due later: ")
+        title3= tk.Label(self, text="Due later: ", font=("Helvetica", 15))
 
         title3.grid(row=3, column=0,sticky = "E")
 
-        title4= tk.Label(self, text="Progress: ")
+        title4= tk.Label(self, text="Progress: ", font=("Helvetica", 15))
 
         title4.grid(row=4, column=0,sticky = "E")
 
@@ -107,21 +103,21 @@ class Achievement(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         
-        heading = tk.Label(self, text="ACHIEVEMENTS", font=("Helvetica", 20))
+        heading = tk.Label(self, text="ACHIEVEMENTS", font=("Helvetica", 20), fg ="Purple")
         heading.grid(row=0,column=1)
 
         achbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
         achbutton.grid(row=4, column=1)
 
-        title1= tk.Label(self, text="Highest score achieved: ")
+        title1= tk.Label(self, text="Highest score achieved: ",font=("Helvetica", 15))
 
         title1.grid(row=1, column=0,sticky = "E")
 
-        title2= tk.Label(self, text="Started questions: ")
+        title2= tk.Label(self, text="Started questions: ",font=("Helvetica", 15))
 
         title2.grid(row=2, column=0,sticky = "E")
 
-        title3= tk.Label(self, text="Questions finished: ")
+        title3= tk.Label(self, text="Questions finished: ",font=("Helvetica", 15))
 
         title3.grid(row=3, column=0,sticky = "E")
 
@@ -130,17 +126,17 @@ class ClassAverage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
 
-        heading = tk.Label(self, text="CLASS AVERAGE", font=("Helvetica", 20))
+        heading = tk.Label(self, text="CLASS AVERAGE", font=("Helvetica", 20), fg ="Purple")
         heading.grid(row=0,column=1)
 
         classbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
         classbutton.grid(row=4, column=1)
 
-        title1= tk.Label(self, text="My average: ")
+        title1= tk.Label(self, text="My average: ",font=("Helvetica", 15))
 
         title1.grid(row=1, column=0,sticky = "E")
 
-        title2= tk.Label(self, text="Class overall average: ")
+        title2= tk.Label(self, text="Class overall average: ",font=("Helvetica", 15))
 
         title2.grid(row=2, column=0,sticky = "E")
 
@@ -151,24 +147,19 @@ class Teachers(tk.Frame):
         tk.Frame.__init__(self, parent)
 
 
-        heading = tk.Label(self, text="TEACHERS COMMENT", font=("Helvetica", 20))
+        heading = tk.Label(self, text="TEACHERS COMMENT", font=("Helvetica", 20),fg ="Purple")
         heading.grid(row=0,column=1)
 
         teachbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
         teachbutton.grid(row=4, column=1)
 
-        title1= tk.Label(self, text="What went well: ")
+        title1= tk.Label(self, text="What went well: ",font=("Helvetica", 15))
 
         title1.grid(row=1, column=0,sticky = "E")
 
-        title2= tk.Label(self, text="What could you do next time to improve: ")
+        title2= tk.Label(self, text="What could you do next time to improve: ",font=("Helvetica", 15))
 
         title2.grid(row=2, column=0,sticky = "E")
-
-
-
-        
-        
 
 app=ChemVision()
 app.mainloop()
