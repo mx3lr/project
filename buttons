@@ -15,7 +15,7 @@ class ChemVision(tk.Tk):     #this is the base line, to the rest of the applicat
         
         self.frames={}
 
-        for c in (Login, MainMenu, Assessment, Achievement, ClassAverage, Teachers):
+        for c in (Login, Incorrect, ForgotPass, Details, Register, MainMenu, Assessment, Achievement, ClassAverage, Teachers):
             
             frame = c(container, self)
 
@@ -29,11 +29,11 @@ class ChemVision(tk.Tk):     #this is the base line, to the rest of the applicat
         frame=self.frames[cont]
         frame.tkraise()
 
-
 class Login(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+        
         title = tk.Label(self, text="CHEMVISION", font=("Helvetica", 30), fg ="Purple")
         title.grid(row=0,column=0) 
 
@@ -54,6 +54,160 @@ class Login(tk.Frame):
 
         loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White", command=lambda: controller.show_frame(MainMenu))
         loginbutton.grid(row=3, column=2)
+
+        forgotbutton=tk.Button(self, text="FORGOT YOUR PASSWORD?", command=lambda: controller.show_frame(ForgotPass))
+        forgotbutton.grid(row=4, column=2)
+
+        newbutton=tk.Button(self, text="DON'T HAVE A LOGIN? REGISTER HERE",fg ="Purple", command=lambda: controller.show_frame(Details))
+        newbutton.grid(row=5, column=2)
+
+class Incorrect(tk.Frame): #this class, will be for if the user enters incorrect login details, and they will be asked to try again
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        title = tk.Label(self, text="CHEMVISION", font=("Helvetica", 30), fg ="Purple")
+        title.grid(row=0,column=0)  #pack puts it into the window
+
+        subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 10))
+        subheading.grid(row=1,column=0)
+
+        name=tk.Label(self, text='USERNAME:')
+        n1=tk.Entry(self, width=20)
+        name.grid(row=0,column=1)
+        n1.grid(row=0,column=2)
+
+        password=tk.Label(self, text='PASSWORD:')
+        p1=tk.Entry(self, show="*", width=20)
+        password.grid(row=1,column=1)
+        p1.grid(row=1,column=2)
+
+        rem=tk.Checkbutton(self, text="Remember password")
+        rem.grid(row=2, column=2)
+
+        incorrect=tk.Label(self, text="Your details are incorrect. Please try again or click ‘Forgot your password?’ below", fg ="Red")
+        incorrect.grid(row=3, column=2)
+
+        loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White",command=lambda: controller.show_frame(MainMenu))
+        loginbutton.grid(row=4, column=2)
+
+        forgotbutton=tk.Button(self, text="FORGOT YOUR PASSWORD?", command=lambda: controller.show_frame(ForgotPass))
+        forgotbutton.grid(row=5, column=2)
+
+        newbutton=tk.Button(self, text="DON'T HAVE A LOGIN? REGISTER HERE",fg ="Purple", command=lambda: controller.show_frame(Details))
+        newbutton.grid(row=7, column=2)
+
+
+
+
+class ForgotPass(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        title = tk.Label(self, text="Forgot password:", font=("Helvetica", 15))
+        title.grid(row=0,column=0)  #pack puts it into the window
+
+##        subheading = Label(root, text="If you are unsure about your login details, please enter your email address below. A confirmation email will be sent to you with your new password.", font=("Helvetica", 10))
+##        subheading.grid(row=1,column=0)
+
+        back = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(Login))
+        back.grid(row=6, column=2)
+
+        email=tk.Label(self, text='Email address:')
+        e1=tk.Entry(self)
+        email.grid(row=0,column=1,sticky = "E")
+        e1.grid(row=0,column=2)
+
+        np=tk.Label(self, text='New password:')
+        np1=tk.Entry(self)
+        np.grid(row=1,column=1,sticky = "E")
+        np1.grid(row=1,column=2)
+
+        c=tk.Label(self, text='Confirm new password:')
+        c1=tk.Entry(self)
+        c.grid(row=3,column=1,sticky = "E")
+        c1.grid(row=3,column=2)
+
+        forgotbutton=tk.Button(self, text='Reset password', background='Purple',fg ="White", command= lambda: controller.show_frame(Login))
+        forgotbutton.grid(row=4, column=2)
+
+
+class Details(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        subheading = tk.Label(self, text="Details Form", font=("Helvetica", 20))
+        subheading.grid(row=0,column=0)
+
+        back = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(Login))
+        back.grid(row=6, column=2)
+
+        newname=tk.Label(self, text='Name:')
+        n1=tk.Entry(self)
+        newname.grid(row=0,column=1,sticky = "E")
+        n1.grid(row=0,column=2)
+
+        sn=tk.Label(self, text='Surename:')
+        sn1=tk.Entry(self)
+        sn.grid(row=1,column=1,sticky = "E")
+        sn1.grid(row=1,column=2)
+
+        dob=tk.Label(self, text='Date of Birth:dd/mm/yyyy')
+        d1=tk.Entry(self)
+        dob.grid(row=2,column=1,sticky = "E")
+        d1.grid(row=2,column=2)
+
+        year=tk.Label(self, text='Class/Year:')
+        y1=tk.Entry(self)
+        year.grid(row=3,column=1,sticky = "E")
+        y1.grid(row=3,column=2)
+
+        newbutton=tk.Button(self, text='CONFIRM', background='Purple',fg ="White",command= lambda: controller.show_frame(Register))
+        newbutton.grid(row=4, column=2)
+
+
+
+class Register(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        title = tk.Label(self, text="Registration Form:", font=("Helvetica", 20))
+        title.grid(row=0,column=0)  #pack puts it into the window
+
+##        subheading = tk.Label(self, text="Password must contain at least 8 characters including uppercase and lowercase letters, numbers and a special character.", font=("Helvetica", 10))
+##        subheading.grid(row=1,column=0)
+
+        back = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(Details))
+        back.grid(row=6, column=2)
+
+        newn=tk.Label(self, text='Username:')
+        n1=tk.Entry(self)
+        newn.grid(row=0,column=1,sticky = "E")
+        n1.grid(row=0,column=2)
+
+        email=tk.Label(self, text='Email:')
+        e1=tk.Entry(self)
+        email.grid(row=1,column=1,sticky = "E")
+        e1.grid(row=1,column=2)
+
+        p=tk.Label(self, text='Password:')
+        p1=tk.Entry(self)
+        p.grid(row=2,column=1,sticky = "E")
+        p1.grid(row=2,column=2)
+
+        c=tk.Label(self, text='Confirm password:')
+        c1=tk.Entry(self)
+        c.grid(row=3,column=1,sticky = "E")
+        c1.grid(row=3,column=2)
+
+
+        newbutton=tk.Button(self, text='Register', background='Purple',fg ="White",command= lambda: controller.show_frame(Login))
+        newbutton.grid(row=4, column=2)
+
+        
 class MainMenu(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -168,3 +322,4 @@ app.mainloop()
 ##import sqlite3 as sql
 ##
 ##aaaaa sql.connect(name of database)
+
