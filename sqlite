@@ -1,0 +1,25 @@
+import sqlite3 as sql
+
+with sql.connect("ChemVision.db") as db:
+    global cursor
+    cursor=db.cursor()
+print("Cursor up")    
+
+query=('''CREATE TABLE IF NOT EXISTS users(
+userID PRIMARY KEY,
+username VARCHAR(20),
+password VARCHAR(12),
+email VARCHAR(320),
+name VARCHAR(20),
+surename VARCHAR(20))''')
+
+cursor.execute(query)
+
+
+
+
+
+##
+##c.fetchone()) # will only get that no  of row, if not avaiable will return empty list 
+##conn.commit()
+##conn.close()
