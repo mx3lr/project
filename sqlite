@@ -8,8 +8,8 @@ with sql.connect("ChemVision.db") as db:
     cursor=db.cursor()
 print("Cursor up")    
 
-
-cursor.execute('''CREATE TABLE IF NOT EXISTS users(
+def create_table():
+    cursor.execute('''CREATE TABLE IF NOT EXISTS users(
 ##userID PRIMARY KEY,
 ##username VARCHAR(20),
 ##password VARCHAR(12),
@@ -19,6 +19,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS users(
 
 cursor.close() # create this^ tsble first then insert data
 
+def data_entry():
 #conn
 with sql.connect("ChemVision.db") as db:
     global cursor
@@ -57,3 +58,4 @@ conn.close()
 ##c.fetchone()) # will only get that no  of row, if not avaiable will return empty list 
 ##conn.commit()
 ##conn.close()
+
