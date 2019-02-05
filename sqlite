@@ -2,7 +2,6 @@ import sqlite3 as sql
 
 #for login, do same for leaderboard
 
-#conn
 with sql.connect("ChemVision.db") as db:
     global cursor
     cursor=db.cursor()
@@ -10,46 +9,32 @@ print("Cursor up")
 
 def create_table():
     cursor.execute('''CREATE TABLE IF NOT EXISTS users(
-##userID PRIMARY KEY,
-##username VARCHAR(20),
-##password VARCHAR(12),
-##email VARCHAR(320),
-##name VARCHAR(20),
-##surename VARCHAR(20));''')
+userID PRIMARY KEY,
+username VARCHAR(20),
+password VARCHAR(12),
+email VARCHAR(255),
+name VARCHAR(20),
+surname VARCHAR(20));
+dob CHAR(10)''')
 
 cursor.close() # create this^ tsble first then insert data
 
 def data_entry():
-#conn
-with sql.connect("ChemVision.db") as db:
-    global cursor
-cursor = conn.cursor()
-cursor.execute("INSERT INTO users (userID,username,password,email,name,surename) \
-      VALUES (1, 'dom2209','don!tryit6', 'dom09@hotmail.co.uk', 'Dom', 'Dally')");
-cursor.execute("INSERT INTO users (userID,username,password,email,name,surename) \
-      VALUES (2, 'babyblue1475', '1favco!our', 'babyblue45@gmail.com', 'Meri', 'Janovi')");
-cursor.execute("INSERT INTO users (userID,username,password,email,name,surename) \
-      VALUES (3, 'peargum67', m8wot, 'gummy67@hotmail.co.uk','Sela', 'Qanga' )");
-cursor.execute("INSERT INTO users (userID,username,password,email,name,surename) \
-      VALUES (4, 'mozzik4lyf', 'f!owerboy95', 'kejsi2000@gmail.com', 'Kejsi', 'Beta')");
-conn.commit()
-conn.close()
+    with sql.connect("ChemVision.db") as db:
+        global cursor
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO users (userID,username,password,email,name,surname,dob) \
+              VALUES (1, 'dom2209','don!tryit6', 'dom09@hotmail.co.uk', 'Dom', 'Dally','2000-12-04')");
+    cursor.execute("INSERT INTO users (userID,username,password,email,name,surname,dob) \
+      VALUES (2, 'babyblue1475', '1favco!our', 'babyblue45@gmail.com', 'Meri', 'Janovi',,'2000-09-19')");
+    cursor.execute("INSERT INTO users (userID,username,password,email,name,surname,dob) \
+      VALUES (3, 'peargum67', m8wot, 'gummy67@hotmail.co.uk','Sela', 'Qanga','2001-01-29' )");
+    cursor.execute("INSERT INTO users (userID,username,password,email,name,surname,dob) \
+          VALUES (4, 'mozzik4lyf', 'f!owerboy95', 'kejsi2000@gmail.com', 'Kejsi', 'Beta','2001-04-09')");
 
-
-
-
-
-
-##query=('''CREATE TABLE IF NOT EXISTS users(
-##userID PRIMARY KEY,
-##username VARCHAR(20),
-##password VARCHAR(12),
-##email VARCHAR(320),
-##name VARCHAR(20),
-##surename VARCHAR(20))''')
-##
-##cursor.execute(query)
-
+##    db.commit()
+db.commit()
+db.close()
 
 
 
@@ -58,4 +43,5 @@ conn.close()
 ##c.fetchone()) # will only get that no  of row, if not avaiable will return empty list 
 ##conn.commit()
 ##conn.close()
+
 
