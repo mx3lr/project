@@ -1,5 +1,6 @@
 import tkinter as tk
 import sqlite3 as sql
+from tkinter import ttk
 
 class ChemVision(tk.Tk):     #this is the base line, to the rest of the application, so everytime you add a page.
     #to initialise upon a class, using this will run immediately. 
@@ -47,27 +48,31 @@ class Login(tk.Frame):
 
         subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 15))
         subheading.grid(row=1,column=0)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+
+        
         name=tk.Label(self, text='USERNAME:')
         n1=tk.Entry(self, width=20)
-        name.grid(row=0,column=1)
-        n1.grid(row=0,column=2)
+        name.grid(row=0,column=2)
+        n1.grid(row=0,column=3)
 
         password=tk.Label(self, text='PASSWORD:')
         p1=tk.Entry(self, show="*", width=20)
-        password.grid(row=1,column=1)
-        p1.grid(row=1,column=2)
+        password.grid(row=1,column=2)
+        p1.grid(row=1,column=3)
 
         rem=tk.Checkbutton(self, text="Remember password")
-        rem.grid(row=2, column=2)
+        rem.grid(row=2, column=3)
 
         loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White", command=lambda: controller.show_frame(MainMenu))
-        loginbutton.grid(row=3, column=2)
+        loginbutton.grid(row=3, column=3)
 
         forgotbutton=tk.Button(self, text="FORGOT YOUR PASSWORD?", command=lambda: controller.show_frame(ForgotPass))
-        forgotbutton.grid(row=4, column=2)
+        forgotbutton.grid(row=4, column=3)
 
         newbutton=tk.Button(self, text="DON'T HAVE A LOGIN? REGISTER HERE",fg ="Purple", command=lambda: controller.show_frame(Details))
-        newbutton.grid(row=5, column=2)
+        newbutton.grid(row=5, column=3)
 
     def createconnection():
         with sql.connect("ChemVision.db") as db:
@@ -87,30 +92,32 @@ class Incorrect(tk.Frame): #this class, will be for if the user enters incorrect
         subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 10))
         subheading.grid(row=1,column=0)
 
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+
         name=tk.Label(self, text='USERNAME:')
         n1=tk.Entry(self, width=20)
-        name.grid(row=0,column=1)
-        n1.grid(row=0,column=2)
+        name.grid(row=0,column=2)
+        n1.grid(row=0,column=3)
 
         password=tk.Label(self, text='PASSWORD:')
         p1=tk.Entry(self, show="*", width=20)
-        password.grid(row=1,column=1)
-        p1.grid(row=1,column=2)
+        password.grid(row=1,column=2)
+        p1.grid(row=1,column=3)
 
         rem=tk.Checkbutton(self, text="Remember password")
-        rem.grid(row=2, column=2)
+        rem.grid(row=2, column=3)
 
         incorrect=tk.Label(self, text="Your details are incorrect. Please try again or click ‘Forgot your password?’ below", fg ="Red")
-        incorrect.grid(row=3, column=2)
+        incorrect.grid(row=3, column=3)
 
         loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White",command=lambda: controller.show_frame(MainMenu))
-        loginbutton.grid(row=4, column=2)
+        loginbutton.grid(row=4, column=3)
 
         forgotbutton=tk.Button(self, text="FORGOT YOUR PASSWORD?", command=lambda: controller.show_frame(ForgotPass))
-        forgotbutton.grid(row=5, column=2)
+        forgotbutton.grid(row=5, column=3)
 
         newbutton=tk.Button(self, text="DON'T HAVE A LOGIN? REGISTER HERE",fg ="Purple", command=lambda: controller.show_frame(Details))
-        newbutton.grid(row=7, column=2)
+        newbutton.grid(row=7, column=3)
 
 
 
@@ -123,29 +130,31 @@ class ForgotPass(tk.Frame):
         title = tk.Label(self, text="Forgot password:", font=("Helvetica", 15))
         title.grid(row=0,column=0)  #pack puts it into the window
 
-##        subheading = Label(root, text="If you are unsure about your login details, please enter your email address below. A confirmation email will be sent to you with your new password.", font=("Helvetica", 10))
-##        subheading.grid(row=1,column=0)
+        subheading = tk.Label(self, text="If you are unsure about your login details,\n please enter your email address below.\n A confirmation email will be sent\n to you with your new password.", font=("Helvetica", 10))
+        subheading.grid(row=1,column=0)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
 
         back = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(Login))
         back.grid(row=6, column=2)
 
         email=tk.Label(self, text='Email address:')
         e1=tk.Entry(self)
-        email.grid(row=0,column=1,sticky = "E")
-        e1.grid(row=0,column=2)
+        email.grid(row=0,column=2,sticky = "E")
+        e1.grid(row=0,column=3)
 
         np=tk.Label(self, text='New password:')
         np1=tk.Entry(self)
-        np.grid(row=1,column=1,sticky = "E")
-        np1.grid(row=1,column=2)
+        np.grid(row=1,column=2,sticky = "E")
+        np1.grid(row=1,column=3)
 
         c=tk.Label(self, text='Confirm new password:')
         c1=tk.Entry(self)
-        c.grid(row=3,column=1,sticky = "E")
-        c1.grid(row=3,column=2)
+        c.grid(row=3,column=2,sticky = "E")
+        c1.grid(row=3,column=3)
 
         forgotbutton=tk.Button(self, text='Reset password', background='Purple',fg ="White", command= lambda: controller.show_frame(Login))
-        forgotbutton.grid(row=4, column=2)
+        forgotbutton.grid(row=4, column=3)
 
     def createconnection():
        with sql.connect("ChemVision.db") as db:
@@ -166,28 +175,30 @@ class Details(tk.Frame):
         back = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(Login))
         back.grid(row=6, column=2)
 
-        newname=tk.Label(self, text='Name:')
-        n1=tk.Entry(self)
-        newname.grid(row=0,column=1,sticky = "E")
-        n1.grid(row=0,column=2)
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
 
-        sn=tk.Label(self, text='Surename:')
+        newname=tk.Label(self, text='Forename:')
+        n1=tk.Entry(self)
+        newname.grid(row=0,column=2,sticky = "E")
+        n1.grid(row=0,column=3)
+
+        sn=tk.Label(self, text='Surname:')
         sn1=tk.Entry(self)
-        sn.grid(row=1,column=1,sticky = "E")
-        sn1.grid(row=1,column=2)
+        sn.grid(row=1,column=2,sticky = "E")
+        sn1.grid(row=1,column=3)
 
         dob=tk.Label(self, text='Date of Birth:dd/mm/yyyy')
         d1=tk.Entry(self)
-        dob.grid(row=2,column=1,sticky = "E")
-        d1.grid(row=2,column=2)
+        dob.grid(row=2,column=2,sticky = "E")
+        d1.grid(row=2,column=3)
 
         year=tk.Label(self, text='Class/Year:')
         y1=tk.Entry(self)
-        year.grid(row=3,column=1,sticky = "E")
-        y1.grid(row=3,column=2)
+        year.grid(row=3,column=2,sticky = "E")
+        y1.grid(row=3,column=3)
 
         newbutton=tk.Button(self, text='CONFIRM', background='Purple',fg ="White",command= lambda: controller.show_frame(Register))
-        newbutton.grid(row=4, column=2)
+        newbutton.grid(row=4, column=3)
 
     def createconnection():
         with sql.connect("ChemVision.db") as db:
@@ -206,35 +217,37 @@ class Register(tk.Frame):
         title = tk.Label(self, text="Registration Form:", font=("Helvetica", 20))
         title.grid(row=0,column=0)  #pack puts it into the window
 
-##        subheading = tk.Label(self, text="Password must contain at least 8 characters including uppercase and lowercase letters, numbers and a special character.", font=("Helvetica", 10))
-##        subheading.grid(row=1,column=0)
+        subheading = tk.Label(self, text="Password must contain at least 8 \n characters including uppercase and lowercase \n letters, numbers and a special character.", font=("Helvetica", 10))
+        subheading.grid(row=1,column=0)
 
         back = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(Details))
         back.grid(row=6, column=2)
 
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+
         newn=tk.Label(self, text='Username:')
         n1=tk.Entry(self)
-        newn.grid(row=0,column=1,sticky = "E")
-        n1.grid(row=0,column=2)
+        newn.grid(row=0,column=2,sticky = "E")
+        n1.grid(row=0,column=3)
 
         email=tk.Label(self, text='Email:')
         e1=tk.Entry(self)
-        email.grid(row=1,column=1,sticky = "E")
-        e1.grid(row=1,column=2)
+        email.grid(row=1,column=2,sticky = "E")
+        e1.grid(row=1,column=3)
 
         p=tk.Label(self, text='Password:')
         p1=tk.Entry(self)
-        p.grid(row=2,column=1,sticky = "E")
-        p1.grid(row=2,column=2)
+        p.grid(row=2,column=2,sticky = "E")
+        p1.grid(row=2,column=3)
 
         c=tk.Label(self, text='Confirm password:')
         c1=tk.Entry(self)
-        c.grid(row=3,column=1,sticky = "E")
-        c1.grid(row=3,column=2)
+        c.grid(row=3,column=2,sticky = "E")
+        c1.grid(row=3,column=3)
 
 
         newbutton=tk.Button(self, text='Register', background='Purple',fg ="White",command= lambda: controller.show_frame(Login))
-        newbutton.grid(row=4, column=2)
+        newbutton.grid(row=4, column=3)
 
     def createconnection():
         with sql.connect("ChemVision.db") as db:
@@ -267,10 +280,12 @@ class Assessment(tk.Frame):
         tk.Frame.__init__(self, parent)
 
         heading = tk.Label(self, text="ASSESSMENT", font=("Helvetica", 30), fg ="Purple")
-        heading.grid(row=0,column=1)
+        heading.grid(row=0,column=2)
 
         assbutton = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(MainMenu))
-        assbutton.grid(row=5, column=1)
+        assbutton.grid(row=5, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
         
         title1= tk.Label(self, text="Current tasks: ", font=("Helvetica", 15))
 
@@ -294,10 +309,12 @@ class Achievement(tk.Frame):
         tk.Frame.__init__(self, parent)
         
         heading = tk.Label(self, text="ACHIEVEMENTS", font=("Helvetica", 20), fg ="Purple")
-        heading.grid(row=0,column=1)
+        heading.grid(row=0,column=2)
 
         achbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
-        achbutton.grid(row=4, column=1)
+        achbutton.grid(row=4, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
 
         title1= tk.Label(self, text="Highest score achieved: ",font=("Helvetica", 15))
 
@@ -317,10 +334,12 @@ class ClassAverage(tk.Frame):
         tk.Frame.__init__(self, parent)
 
         heading = tk.Label(self, text="CLASS AVERAGE", font=("Helvetica", 20), fg ="Purple")
-        heading.grid(row=0,column=1)
+        heading.grid(row=0,column=2)
 
         classbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
-        classbutton.grid(row=4, column=1)
+        classbutton.grid(row=4, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
 
         title1= tk.Label(self, text="My average: ",font=("Helvetica", 15))
 
@@ -338,16 +357,18 @@ class Teachers(tk.Frame):
 
 
         heading = tk.Label(self, text="TEACHERS COMMENT", font=("Helvetica", 20),fg ="Purple")
-        heading.grid(row=0,column=1)
+        heading.grid(row=0,column=2)
 
         teachbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
-        teachbutton.grid(row=4, column=1)
+        teachbutton.grid(row=4, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
 
         title1= tk.Label(self, text="What went well: ",font=("Helvetica", 15))
 
         title1.grid(row=1, column=0,sticky = "E")
 
-        title2= tk.Label(self, text="What could you do next time to improve: ",font=("Helvetica", 15))
+        title2= tk.Label(self, text="What could you do\n next time to improve: ",font=("Helvetica", 15))
 
         title2.grid(row=2, column=0,sticky = "E")
 
