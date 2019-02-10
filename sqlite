@@ -1,30 +1,43 @@
 import sqlite3 as sql
 
-with sql.connect("newfile.db") as db:
+with sql.connect("ChemVision.db") as db:
     global cursor
     cursor = db.cursor()
-create_table = ("""CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, username VARCHAR(20), password VARCHAR(20), email VARCHAR(255), name VARCHAR(20), surname VARCHAR(20), dob CHAR(10))""")
+
+    create_table = ("""CREATE TABLE IF NOT EXISTS users (userID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), dob CHAR(10), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
 
 cursor.execute(create_table)
 
 db.commit()
 
 def data_entry():
+    insert_table1=("INSERT INTO users (forename, surname, dob,username,password, email) VALUES ( 'Dom', 'Dally','04-12-2000','dom2209','don!tryit6', 'dom09@hotmail.co.uk')")
+    insert_table2=("INSERT INTO users (forename, surname, dob,username,password, email) VALUES ( 'Meri', 'Janovi','19-09-2000','babyblue1475', '1favco!our', 'babyblue45@gmail.com')")
+    insert_table3=("INSERT INTO users (forename, surname, dob,username,password, email) VALUES ( 'Sela', 'Qanga','29-01-2001','peargum67', 'm8wot', 'gummy67@hotmail.co.uk')")
+    insert_table4=("INSERT INTO users (forename, surname, dob,username,password, email) VALUES (  'Kejsi', 'Beta','09-04-2001','mozzik4lyf', 'f!owerboy95', 'kejsi2000@gmail.com')")
+    cursor.execute(insert_table1)
+    cursor.execute(insert_table2)
+    cursor.execute(insert_table3)
+    cursor.execute(insert_table4)
+    db.commit()
 
-    for i in range(1, 10):
-        insert_table1=("INSERT INTO users (username,password, email, name, surname, dob) VALUES ('dom2209','don!tryit6', 'dom09@hotmail.co.uk', 'Dom', 'Dally','2000-12-04')")
-        insert_table2=("INSERT INTO users (username,password,email,name,surname,dob) VALUES ( 'babyblue1475', '1favco!our', 'babyblue45@gmail.com', 'Meri', 'Janovi','2000-09-19')")
-        insert_table3=("INSERT INTO users (username,password,email,name,surname,dob) VALUES ( 'peargum67', 'm8wot', 'gummy67@hotmail.co.uk','Sela', 'Qanga','2001-01-29' )")
-        insert_table4=("INSERT INTO users (username,password,email,name,surname,dob) VALUES ( 'mozzik4lyf', 'f!owerboy95', 'kejsi2000@gmail.com', 'Kejsi', 'Beta','2001-04-09')")
-        cursor.execute(insert_table1)
-        cursor.execute(insert_table2)
-        cursor.execute(insert_table3)
-        cursor.execute(insert_table4)
-        db.commit()
+##    cursor.execute("SELECT * FROM users")
+##    print(cursor.fetchall())
 
 data_entry()
 db.commit()
 db.close()
+
+
+##def dynamic_data_entry():
+##    cursor.execute("INSERT INTO users (forename, surname, dob,username,password, email)VALUES ( ?, ?,?,?,?,?)")
+##    db.commit()
+
+##def read_from_db():
+##    cursor.execute("SELECT * FROM users")
+##    for row in cursor.fetchall():
+##        print(row)
+
 
 
 
