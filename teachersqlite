@@ -1,0 +1,22 @@
+import sqlite3 as sql
+
+with sql.connect("ChemVision.db") as db:
+    global cursor
+    cursor = db.cursor()
+
+    create_table = ("""CREATE TABLE IF NOT EXISTS teachers (userID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
+
+cursor.execute(create_table)
+
+db.commit()
+
+def data_entry():
+    insert_table1=("INSERT INTO teachers (forename, surname, username,password, email) VALUES ( 'Sam', 'Sniff','SamSniff','schOOlpass12', 'SamSniff@hotmail.co.uk')")
+    insert_table2=("INSERT INTO teachers (forename, surname, username,password, email) VALUES ( 'Joe', 'Lope','JoeLope', 'schOOlpass34', 'JoeLope@gmail.com')")
+    cursor.execute(insert_table1)
+    cursor.execute(insert_table2)
+    db.commit()
+
+data_entry()
+db.commit()
+db.close()
