@@ -73,6 +73,14 @@ class Login(tk.Frame):
 
         newbutton=tk.Button(self, text="DON'T HAVE A LOGIN? REGISTER HERE",fg ="Purple", command=lambda: controller.show_frame(Details))
         newbutton.grid(row=5, column=3)
+        
+        exitbutton=tk.Button(self, text="Exit", width=15, command=self.client_exit)
+        exitbutton.grid(row=6, column=6, pady=20, padx=8)
+        
+    def client_exit(self):
+        answer=messagebox.askyesnocancel("Exit", "Do you really wish to exit ChemVision?")
+        if(answer):
+            exit() 
 
     def createconnection():
         with sql.connect("ChemVision.db") as db:
