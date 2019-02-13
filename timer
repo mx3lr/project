@@ -2,8 +2,8 @@ from tkinter import *
 import time
 
 class StopWatch(Frame):                                                                  
-    def __init__(self, parent=None, **kw):        
-        Frame.__init__(self, parent, kw)
+    def __init__(self, parent=None, **kwargs):        
+        Frame.__init__(self, parent, **kwargs)
         self.start = 0.0        
         self.elapsed= 0.0
         self.running = 0
