@@ -1,0 +1,30 @@
+import sqlite3 as sql
+
+def login():
+    for c in range(3): # 3 attempts
+        username=input("Please enter your username: ")
+        password=input("Please enter your password: ")
+        with sql.connect("ChemVision.db") as db:
+            cursor = db.cursor()
+        find_user= ("SELECT * FROM users WHERE username = ? AND password =?")
+        cursor.execute(find_user,[(username), (password)])
+        results=cursor.fetchall()
+
+        if results:
+            for c in results:
+                print("hi", +c[1])
+##            return("exit")
+                break
+        
+        
+        else:
+            print("Username and pass not found")
+            again = input("Do you want to try again?y/n:")
+            if again.lower() == "n":
+                print("bye")
+                time.sleep(1)
+##                return("exit")
+                break
+
+login()            
+            
