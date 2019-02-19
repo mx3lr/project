@@ -49,7 +49,7 @@ class Login(tk.Frame):
         subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 15))
         subheading.grid(row=1,column=0)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         
         name=tk.Label(self, text='USERNAME:')
@@ -100,7 +100,7 @@ class Incorrect(tk.Frame): #this class, will be for if the user enters incorrect
         subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 10))
         subheading.grid(row=1,column=0)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         name=tk.Label(self, text='USERNAME:')
         n1=tk.Entry(self, width=20)
@@ -141,7 +141,7 @@ class ForgotPass(tk.Frame):
         subheading = tk.Label(self, text="If you are unsure about your login details,\n please enter your email address below.\n A confirmation email will be sent\n to you with your new password.", font=("Helvetica", 10))
         subheading.grid(row=1,column=0)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         back = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(Login))
         back.grid(row=6, column=2)
@@ -183,7 +183,7 @@ class Details(tk.Frame):
         back = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(Login))
         back.grid(row=6, column=2)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         newname=tk.Label(self, text='Forename:')
         n1=tk.Entry(self)
@@ -231,7 +231,7 @@ class Register(tk.Frame):
         back = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(Details))
         back.grid(row=6, column=2)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         newn=tk.Label(self, text='Username:')
         n1=tk.Entry(self)
@@ -293,7 +293,7 @@ class Assessment(tk.Frame):
         assbutton = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(MainMenu))
         assbutton.grid(row=5, column=2)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
         
         title1= tk.Label(self, text="Current tasks: ", font=("Helvetica", 15))
 
@@ -322,7 +322,7 @@ class Achievement(tk.Frame):
         achbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
         achbutton.grid(row=4, column=2)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         title1= tk.Label(self, text="Highest score achieved: ",font=("Helvetica", 15))
 
@@ -347,7 +347,7 @@ class ClassAverage(tk.Frame):
         classbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
         classbutton.grid(row=4, column=2)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         title1= tk.Label(self, text="My average: ",font=("Helvetica", 15))
 
@@ -370,7 +370,7 @@ class Teachers(tk.Frame):
         teachbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
         teachbutton.grid(row=4, column=2)
 
-        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=5, sticky="ns")
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         title1= tk.Label(self, text="What went well: ",font=("Helvetica", 15))
 
