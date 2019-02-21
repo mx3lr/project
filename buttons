@@ -1,6 +1,7 @@
 import tkinter as tk
 import sqlite3 as sql
 from tkinter import ttk
+from tkinter import messagebox
 
 class ChemVision(tk.Tk):     #this is the base line, to the rest of the application, so everytime you add a page.
     #to initialise upon a class, using this will run immediately. 
@@ -36,8 +37,15 @@ class ChemVision(tk.Tk):     #this is the base line, to the rest of the applicat
         with sql.connect("ChemVision.db") as db:
             global cursor
             cursor=db.cursor()
-        print("Cursor up")    
+        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
+        createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
 
+        cursor.execute(createStudent)
+        cursor.execute(createTeachers)
+        db.commit()
+        db.close()
+
+        
 class Login(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -50,7 +58,6 @@ class Login(tk.Frame):
         subheading.grid(row=1,column=0)
 
         ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
-
         
         name=tk.Label(self, text='USERNAME:')
         n1=tk.Entry(self, width=20)
@@ -82,11 +89,59 @@ class Login(tk.Frame):
         if(answer):
             exit() 
 
-    def createconnection():
+    def createconnection(self, parent, controller):
         with sql.connect("ChemVision.db") as db:
             global cursor
             cursor=db.cursor()
-        print("Cursor up")    
+        searchuser=("SELECT * FROM users WHERE username=? AND password=?")
+        cursur.execute(searchuser, [(self.username.get()), (self.password.get)])
+        x=cursur.fetchall()
+        if x:
+            self.logfunction.pack_forget()
+            self.head["text"]=self.username.get()
+            self.head["pady"]=150
+        else:
+            message.showerror("Your details are incorrect. Please try again or click ‘Forgot your password?’ below")
+
+    def new(self, parent, controller):
+        with sql.connect("ChemVision.db") as db:
+            global cursor
+            cursor=db.cursor()
+        searchuser=("SELECT * FROM users WHERE username=? AND password=? AND email=? AND name=? AND dob=?")
+        cursur.execute(searchuser, [(self.username.get()), (self.password.get)])
+        if cursur.fetchall():
+            message.showerror("Username already exits")
+        else:
+            message.showerror("You can now login with new login details")
+            self.logfunction()
+        insert= "INSERT INTO users(userID,username,password,email,name,surname,dob) VALUES(?,?,?,?,?,?,?)"
+        cursur.execute(searchuser, [(self.username.get()), (self.password.get)])
+        db.commit()
+
+    def account(self, parent, controller):
+        self.Frame.account(self, parent)
+        self.username.set("")
+        self.password.set("")
+        self.crf.pack_forget()
+        self.head["text"] = "Create Account"
+        self.logfunction.pack()
+
+    def create(self, parent, controller):
+        self.newu.set("")
+        self.npass.set("")
+        self.logfunction.pack()
+        self.create.pack()
+        
+
+            
+##        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
+##        createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
+##
+##        cursor.execute(createStudent)
+##        cursor.execute(createTeachers)
+##        db.commit()
+##        db.close()    
+   
 
 
 class Incorrect(tk.Frame): #this class, will be for if the user enters incorrect login details, and they will be asked to try again
@@ -168,8 +223,13 @@ class ForgotPass(tk.Frame):
        with sql.connect("ChemVision.db") as db:
            global cursor
            cursor=db.cursor()
-       print("Cursor up")    
-     
+       cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
+       createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
+
+       cursor.execute(createStudent)
+       cursor.execute(createTeachers)
+       db.commit()
+       db.close()
 
 
 class Details(tk.Frame):
@@ -212,7 +272,14 @@ class Details(tk.Frame):
         with sql.connect("ChemVision.db") as db:
             global cursor
             cursor=db.cursor()
-        print("Cursor up")    
+        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
+        createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
+
+        cursor.execute(createStudent)
+        cursor.execute(createTeachers)
+        db.commit()
+        db.close()
+   
     
 
 
@@ -261,9 +328,15 @@ class Register(tk.Frame):
         with sql.connect("ChemVision.db") as db:
             global cursor
             cursor=db.cursor()
-        print("Cursor up")    
-    
+        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
+        createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
 
+        cursor.execute(createStudent)
+        cursor.execute(createTeachers)
+        db.commit()
+        db.close()
+    
+    
         
 class MainMenu(tk.Frame):
 
@@ -281,6 +354,14 @@ class MainMenu(tk.Frame):
 
         teachbutton = tk.Button(self, text="TEACHERS COMMENTS", font=("Helvetica bold", 15),bg="White", command= lambda: controller.show_frame(Teachers))
         teachbutton.pack(pady=10, padx=20)
+
+        exitbutton=tk.Button(self, text="Exit", width=15, command=self.client_exit)
+        exitbutton.pack(pady=20, padx=8)
+        
+    def client_exit(self):
+        answer=messagebox.askyesnocancel("Exit", "Do you really wish to exit ChemVision?")
+        if(answer):
+            exit() 
 
 class Assessment(tk.Frame):
 
@@ -382,4 +463,3 @@ class Teachers(tk.Frame):
 
 app=ChemVision()
 app.mainloop()
-
