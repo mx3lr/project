@@ -2,6 +2,7 @@ import tkinter as tk
 import sqlite3 as sql
 from tkinter import ttk
 from tkinter import messagebox
+from newteachnstud import entry
 
 class ChemVision(tk.Tk):     #this is the base line, to the rest of the application, so everytime you add a page.
     #to initialise upon a class, using this will run immediately. 
@@ -58,7 +59,8 @@ class Login(tk.Frame):
         subheading.grid(row=1,column=0)
 
         ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
-        
+
+        name1 = tk.StringVar()
         name=tk.Label(self, text='USERNAME:')
         n1=tk.Entry(self, width=20)
         name.grid(row=0,column=2)
@@ -72,7 +74,7 @@ class Login(tk.Frame):
         rem=tk.Checkbutton(self, text="Remember password")
         rem.grid(row=2, column=3)
 
-        loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White", command=lambda: controller.show_frame(MainMenu))
+        loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White", command=lambda: self.create_user(controller, name1.get()))
         loginbutton.grid(row=3, column=3)
 
         forgotbutton=tk.Button(self, text="FORGOT YOUR PASSWORD?", command=lambda: controller.show_frame(ForgotPass))
@@ -87,61 +89,12 @@ class Login(tk.Frame):
     def client_exit(self):
         answer=messagebox.askyesnocancel("Exit", "Do you really wish to exit ChemVision?")
         if(answer):
-            exit() 
+            exit()
 
-    def createconnection(self, parent, controller):
-        with sql.connect("ChemVision.db") as db:
-            global cursor
-            cursor=db.cursor()
-        searchuser=("SELECT * FROM users WHERE username=? AND password=?")
-        cursur.execute(searchuser, [(self.username.get()), (self.password.get)])
-        x=cursur.fetchall()
-        if x:
-            self.logfunction.pack_forget()
-            self.head["text"]=self.username.get()
-            self.head["pady"]=150
-        else:
-            message.showerror("Your details are incorrect. Please try again or click ‘Forgot your password?’ below")
+    def create_user(self, controlle, user):
+        if entry(user) is True:
+            controller.show_frame(MainMenu)
 
-    def new(self, parent, controller):
-        with sql.connect("ChemVision.db") as db:
-            global cursor
-            cursor=db.cursor()
-        searchuser=("SELECT * FROM users WHERE username=? AND password=? AND email=? AND name=? AND dob=?")
-        cursur.execute(searchuser, [(self.username.get()), (self.password.get)])
-        if cursur.fetchall():
-            message.showerror("Username already exits")
-        else:
-            message.showerror("You can now login with new login details")
-            self.logfunction()
-        insert= "INSERT INTO users(userID,username,password,email,name,surname,dob) VALUES(?,?,?,?,?,?,?)"
-        cursur.execute(searchuser, [(self.username.get()), (self.password.get)])
-        db.commit()
-
-    def account(self, parent, controller):
-        self.Frame.account(self, parent)
-        self.username.set("")
-        self.password.set("")
-        self.crf.pack_forget()
-        self.head["text"] = "Create Account"
-        self.logfunction.pack()
-
-    def create(self, parent, controller):
-        self.newu.set("")
-        self.npass.set("")
-        self.logfunction.pack()
-        self.create.pack()
-        
-
-            
-##        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
-##        createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
-##
-##        cursor.execute(createStudent)
-##        cursor.execute(createTeachers)
-##        db.commit()
-##        db.close()    
-   
 
 
 class Incorrect(tk.Frame): #this class, will be for if the user enters incorrect login details, and they will be asked to try again
@@ -463,3 +416,4 @@ class Teachers(tk.Frame):
 
 app=ChemVision()
 app.mainloop()
+
