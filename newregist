@@ -1,0 +1,56 @@
+import sqlite3 as sql
+from tkinter import messagebox
+
+#for login, do same for leaderboard
+
+with sql.connect("ChemVision.db") as db:
+    global cursor
+    cursor=db.cursor()
+print("Cursor up")
+
+shared_data= {"name":"blank", "surname":"blank", "dob":"blank"}
+
+
+createStudent=('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(40),password VARCHAR(60),email VARCHAR(255),name VARCHAR(40),surname VARCHAR(20),dob CHAR(10))''')
+createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(40), surname VARCHAR(40), username VARCHAR(40), password VARCHAR(60), email VARCHAR(255))""")
+
+cursor.execute(createStudent)
+cursor.execute(createTeachers)
+
+db.commit() #saves changes
+
+def dob():
+    day_finding()
+    month_finding()
+    year_finding()
+    dob_checking()
+
+    try:
+        day1=get_day(day_input)
+        month1=get_month(month_input)
+        year1=get_year(day, month,year_input)
+        validate_dob(day,month,year)
+
+        print("DOB: {} - {} - {}".format(day,month,year))
+
+    
+    except ValueError:
+        print("Invalid dob")    
+        
+    
+def register(name, surname, dob, var1, var2):
+    
+    
+    if name.isalpha() is True:
+    #The isalpha() method returns True if all characters in the string are alphabets. If not, it returns False.
+        name.title()
+        if surname.isaplha() is True:
+            surname.title()
+            try:
+                dob1=int(dob)
+
+
+
+
+
+db.close()
