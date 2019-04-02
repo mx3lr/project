@@ -1,6 +1,7 @@
 import sqlite3 as sql
 from tkinter import messagebox
 
+import datetime as dt
 #for login, do same for leaderboard
 
 with sql.connect("ChemVision.db") as db:
@@ -8,7 +9,7 @@ with sql.connect("ChemVision.db") as db:
     cursor=db.cursor()
 print("Cursor up")
 
-shared_data= {"name":"blank", "surname":"blank", "dob":"blank"}
+shared_data= {"name":"blank", "surname":"blank", "dob":"blank", }
 
 
 createStudent=('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(40),password VARCHAR(60),email VARCHAR(255),name VARCHAR(40),surname VARCHAR(20),dob CHAR(10))''')
@@ -19,38 +20,29 @@ cursor.execute(createTeachers)
 
 db.commit() #saves changes
 
-def dob():
-    day_finding()
-    month_finding()
-    year_finding()
-    dob_checking()
-
+   
+def date_validate(date):
     try:
-        day1=get_day(day_input)
-        month1=get_month(month_input)
-        year1=get_year(day, month,year_input)
-        validate_dob(day,month,year)
-
-        print("DOB: {} - {} - {}".format(day,month,year))
-
-    
-    except ValueError:
-        print("Invalid dob")    
+        dt.datetime.strptime(date, "%d-%m-%y")
+        return True
         
+
+    except:
+        messagebox.showerror("Date", "Invaild Date please enter a valid date DD-MM-YYYY")
     
-def register(name, surname, dob, var1, var2):
-    
-    
-    if name.isalpha() is True:
-    #The isalpha() method returns True if all characters in the string are alphabets. If not, it returns False.
+def details(name, surname, dob,school_class, var1, var2):
+    if name.isalpha() is True:  #The isalpha() method returns True if all characters in the string are alphabets. If not, it returns False.
         name.title()
         if surname.isaplha() is True:
             surname.title()
-            try:
-                dob1=int(dob)
+            date_validate(date) is True:
+                if var1 == 1:
+                    if (var2 == 1 ) or (var2 == 2 ):
 
 
+                elif var1 ==2:
+                    if (var2 ==1) or (var2 == 2):
+                        
+                
 
 
-
-db.close()
