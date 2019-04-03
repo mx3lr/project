@@ -221,19 +221,16 @@ class Details(tk.Frame):
         newbutton=tk.Button(self, text='CONFIRM', background='Purple',fg ="White",command= lambda: controller.show_frame(Register))
         newbutton.grid(row=4, column=3)
 
-    def createconnection():
-        with sql.connect("ChemVision.db") as db:
-            global cursor
-            cursor=db.cursor()
-        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
-        createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
+        # Label for where the user enters their class
+        year= tk.Label(self, text="Classy/Year", font=small_font, bg="grey")
+        year.grid(row=3, column=2, pady=20)
 
-        cursor.execute(createStudent)
-        cursor.execute(createTeachers)
-        db.commit()
-        db.close()
-   
-    
+        # Entry for the class in which the student/teacher is apart of and the variable it is stored in
+        year1 = ["12Ch1", "12Ch2", "13Ch1", "13Ch2"]
+        droplist = tk.OptionMenu(self, self.controller.shared_data["Class/Year"], *year1)
+        droplist.config(width=20, border="0")
+        self.controller.shared_data["Class/Year"].set("Select your class/year")
+        droplist.grid(row=3, column=3) 
 
 
 
