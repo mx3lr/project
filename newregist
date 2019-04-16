@@ -9,7 +9,7 @@ with sql.connect("ChemVision.db") as db:
     cursor=db.cursor()
 print("Cursor up")
 
-shared_data= {"name":"blank", "surname":"blank", "dob":"blank", }
+shared_data= {"name":"blank", "surname":"blank", "dob":"blank", "class":"blank" }
 
 
 createStudent=('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(40),password VARCHAR(60),email VARCHAR(255),name VARCHAR(40),surname VARCHAR(20),dob CHAR(10))''')
