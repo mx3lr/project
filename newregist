@@ -1,18 +1,4 @@
-import sqlite3 as sql
-from tkinter import messagebox
-
-import datetime as dt
-#for login, do same for leaderboard
-
-with sql.connect("ChemVision.db") as db:
-    global cursor
-    cursor=db.cursor()
-print("Cursor up")
-
-shared_data= {"name":"blank", "surname":"blank", "dob":"blank", "class":"blank" }
-
-
-createStudent=('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(40),password VARCHAR(60),email VARCHAR(255),name VARCHAR(40),surname VARCHAR(20),dob CHAR(10))''')
+createStudent=('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(40),password VARCHAR(60),email VARCHAR(255),forename VARCHAR(40),surname VARCHAR(20),dob CHAR(10), Class VARCHAR(10))''')
 createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(40), surname VARCHAR(40), username VARCHAR(40), password VARCHAR(60), email VARCHAR(255))""")
 
 cursor.execute(createStudent)
@@ -20,29 +6,50 @@ cursor.execute(createTeachers)
 
 db.commit() #saves changes
 
-   
-def date_validate(date):
-    try:
-        dt.datetime.strptime(date, "%d-%m-%y")
-        return True
-        
+def calculate_age(born):
+    today = dt.date.today()
+    return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
+
+def date_validate(dob):
+    try:
+        dt.datetime.strptime(dob, "%d-%m-%Y")
+        value = dob.split("-")[::-1]
+        newlist = list(map(int,value))
+        if calculate_age(dt.date(newlist[0],newlist[1],newlist[2])) < 16:
+            messagebox.showerror("Age", "To use ChemVision you need to be in sixth form")
+        else:
+            return True
     except:
         messagebox.showerror("Date", "Invaild Date please enter a valid date DD-MM-YYYY")
-    
-def details(name, surname, dob,school_class, var1, var2):
-    if name.isalpha() is True:  #The isalpha() method returns True if all characters in the string are alphabets. If not, it returns False.
-        name.title()
-        if surname.isaplha() is True:
+        
+        
+def details(forename, surname, dob, classyear, var1):
+    if forename.isalpha() is True:  #The isalpha() method returns True if all characters in the string are alphabets. If not, it returns False.
+        forename.title()
+        if surname.isalpha() is True:
             surname.title()
-            date_validate(date) is True:
-                if var1 == 1:
-                    if (var2 == 1 ) or (var2 == 2 ):
+            if date_validate(dob) is True:
+                if classyear.isalnum():
+                    if (var1 == 1 ) or (var1 == 2 ): #var1 student,var2 teacher
+                        shared_data["forename"] = forename
+                        shared_data["surname"] = surname
+                        shared_data["dob"] = dob
+                        shared_data["Class/Year"] = classyear
+                        return True
+                    else:
+                        messagebox.showerror("School","Cannot be blank")
 
+                else:
+                    messagebox.showerror("Class/Year","Cannot be blank")
 
-                elif var1 ==2:
-                    if (var2 ==1) or (var2 == 2):
-                        
-                
+        else:
+            messagebox.showerror("Surname", "Please enter a Proper Surname")
+    else:
+        messagebox.showerror("Forename", "Please enter a proper First Name")
+
+def register(username, password,confirm_password,email):
+    
+    
 
 
