@@ -3,22 +3,22 @@ import sqlite3 as sql
 from tkinter import ttk
 from tkinter import messagebox
 ##from newteachnstud import entry
+from register_backend import  details
 
 class ChemVision(tk.Tk):     #this is the base line, to the rest of the application, so everytime you add a page.
     #to initialise upon a class, using this will run immediately. 
     def __init__(self, *args, **kwargs):
         
         tk.Tk.__init__(self,*args, **kwargs)
-        self.shared_data = {"Forename": tk.StringVar(),  # dictionary that stores the user register information
-                            "Surname": tk.StringVar(),    
-                            "DOB": tk.StringVar(),      
+        self.shared_data = {"forename": tk.StringVar(),  # dictionary that stores the user register information
+                            "surname": tk.StringVar(),    
+                            "dob": tk.StringVar(),      
                             "Class/Year": tk.StringVar(),
-##                            "var": tk.IntVar(),
-##                            "var1": tk.IntVar(),
-                            "Username": tk.StringVar(),
-                            "Password": tk.StringVar(),
+                            "var1": tk.IntVar(),
+                            "username": tk.StringVar(),
+                            "password": tk.StringVar(),
 ##                            "confirm_password": tk.StringVar(),
-                            "Email": tk.StringVar()}
+                            "email": tk.StringVar()}
                             
         #frame is the window
         container=tk.Frame(self)
@@ -49,7 +49,7 @@ class ChemVision(tk.Tk):     #this is the base line, to the rest of the applicat
         with sql.connect("ChemVision.db") as db:
             global cursor
             cursor=db.cursor()
-        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
+        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),forename VARCHAR(20),surname VARCHAR(20),dob VARCHAR(10)), class/year VARCHAR(10))''')    
         createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
 
         cursor.execute(createStudent)
@@ -183,17 +183,6 @@ class ForgotPass(tk.Frame):
         forgotbutton=tk.Button(self, text='Reset password', background='Purple',fg ="White", command= lambda: controller.show_frame(Login))
         forgotbutton.grid(row=4, column=3)
 
-    def createconnection():
-       with sql.connect("ChemVision.db") as db:
-           global cursor
-           cursor=db.cursor()
-       cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
-       createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
-
-       cursor.execute(createStudent)
-       cursor.execute(createTeachers)
-       db.commit()
-       db.close()
 
 
 class Details(tk.Frame):
@@ -206,50 +195,64 @@ class Details(tk.Frame):
         subheading.grid(row=0,column=0)
 
         back = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(Login))
-        back.grid(row=6, column=2)
+        back.grid(row=8, column=2)
 
         ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         newname=tk.Label(self, text='Forename:')
-        n1=tk.Entry(self)
+        n1=tk.Entry(self,textvariable=self.controller.shared_data["forename"])
         newname.grid(row=0,column=2,sticky = "E")
         n1.grid(row=0,column=3)
 
         sn=tk.Label(self, text='Surname:')
-        sn1=tk.Entry(self)
+        sn1=tk.Entry(self, textvariable=self.controller.shared_data["surname"])
         sn.grid(row=1,column=2,sticky = "E")
         sn1.grid(row=1,column=3)
 
         dob=tk.Label(self, text='DOB:')
-        d1=tk.Entry(self)
+        d1=tk.Entry(self, textvariable=self.controller.shared_data["dob"])
         dob.grid(row=2,column=2,sticky = "E")
         d1.grid(row=2,column=3)
 
         year=tk.Label(self, text='Class/Year:')
-        y1=tk.Entry(self)
         year.grid(row=3,column=2,sticky = "E")
-        y1.grid(row=3,column=3)
-
-        newbutton=tk.Button(self, text='CONFIRM', background='Purple',fg ="White",command= lambda: controller.show_frame(Register))
-        newbutton.grid(row=4, column=3)
-
-        # Label for where the user enters their class
-        year= tk.Label(self, text="Class/Year", font="Helvetica")
-        year.grid(row=3, column=2, pady=20)
 
         # Entry for the class in which the student/teacher is apart of and the variable it is stored in
         year1 = ["12Ch1", "12Ch2", "13Ch1", "13Ch2"]
         droplist = tk.OptionMenu(self, self.controller.shared_data["Class/Year"], *year1)
         droplist.config(width=20, border="0")
         self.controller.shared_data["Class/Year"].set("Select your class/year")
-        droplist.grid(row=3, column=3) 
+        droplist.grid(row=3, column=3)
 
+
+
+
+        tk.Radiobutton(self, text="Student", variable=self.controller.shared_data["var1"], value=1).grid(row=4, column=3)  
+        tk.Radiobutton(self, text="Teacher", variable=self.controller.shared_data["var1"], value=2).grid(row=4, column=4)
+        
+        school= tk.Label(self, text="School:")
+        school.grid(row=4, column=2, pady=20)
+
+##        newbutton=tk.Button(self, text='CONFIRM', background='Purple',fg ="White",command= lambda: controller.show_frame(Register))
+##        newbutton.grid(row=4, column=3)
+
+        newbutton = tk.Button(self, text="CONFIRM",
+                                  command=lambda: self.detail(self.controller, self.controller.shared_data["forename"].get(),
+                                                                self.controller.shared_data["surname"].get(),self.controller.shared_data["dob"].get(),
+                                                                self.controller.shared_data["Class/Year"].get(),self.controller.shared_data["var1"].get()))
+        newbutton.config(background='Purple',fg ="White")
+        newbutton.grid(row=7, column=5)
+
+    def detail(self, controller, forename, surname, dob, classyear, var1):  
+        if details(forename, surname, dob, classyear, var1) is True:
+            controller.show_frame(Register)
 
 
 class Register(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+        self.controller = controller
 
         title = tk.Label(self, text="Registration Form:", font=("Helvetica", 20))
         title.grid(row=0,column=0)  #pack puts it into the window
@@ -263,41 +266,32 @@ class Register(tk.Frame):
         ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
 
         newn=tk.Label(self, text='Username:')
-        n1=tk.Entry(self)
+        n1=tk.Entry(self, textvariable = self.controller.shared_data["username"])
         newn.grid(row=0,column=2,sticky = "E")
         n1.grid(row=0,column=3)
 
         email=tk.Label(self, text='Email:')
-        e1=tk.Entry(self)
+        e1=tk.Entry(self, textvariable = self.controller.shared_data["email"])
         email.grid(row=1,column=2,sticky = "E")
         e1.grid(row=1,column=3)
 
         p=tk.Label(self, text='Password:')
-        p1=tk.Entry(self)
+        p1=tk.Entry(self, textvariable = self.controller.shared_data["password"])
         p.grid(row=2,column=2,sticky = "E")
         p1.grid(row=2,column=3)
 
         c=tk.Label(self, text='Confirm password:')
-        c1=tk.Entry(self)
+        c1=tk.Entry(self, textvariable = self.controller.shared_data["confim_password"])
         c.grid(row=3,column=2,sticky = "E")
         c1.grid(row=3,column=3)
 
 
-        newbutton=tk.Button(self, text='Register', background='Purple',fg ="White",command= lambda: controller.show_frame(Login))
+        newbutton=tk.Button(self, text='Register', background='Purple',fg ="White",command= lambda: self.register1(self.controller,self.controller.shared_data["username"].get(),self.controller.shared_data["password"].get(),self.controller.shared_data["confirm_password"].get(),self.controller.shared_data["email"].get())
         newbutton.grid(row=4, column=3)
-
-    def createconnection():
-        with sql.connect("ChemVision.db") as db:
-            global cursor
-            cursor=db.cursor()
-        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),name VARCHAR(20),surname VARCHAR(20),dob CHAR(10))''')    
-        createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
-
-        cursor.execute(createStudent)
-        cursor.execute(createTeachers)
-        db.commit()
-        db.close()
-    
+                            
+    def register1(self,controller,username,password,confirm_password,email):
+        if register(username,password,confirm_password,email) is True:
+            controller.show_frame(MainMenu)
     
         
 class MainMenu(tk.Frame):
@@ -425,3 +419,4 @@ class Teachers(tk.Frame):
 
 app=ChemVision()
 app.mainloop()
+
