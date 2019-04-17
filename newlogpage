@@ -1,0 +1,421 @@
+import tkinter as tk
+import sqlite3 as sql
+from tkinter import ttk
+from tkinter import messagebox
+##from newteachnstud import entry
+from register_backend import  details
+
+class ChemVision(tk.Tk):     #this is the base line, to the rest of the application, so everytime you add a page.
+    #to initialise upon a class, using this will run immediately. 
+    def __init__(self, *args, **kwargs):
+        
+        tk.Tk.__init__(self,*args, **kwargs)
+        self.shared_data = {"forename": tk.StringVar(),  # dictionary that stores the user register information
+                            "surname": tk.StringVar(),    
+                            "dob": tk.StringVar(),      
+                            "Class/Year": tk.StringVar(),
+                            "var1": tk.IntVar(),
+                            "username": tk.StringVar(),
+                            "password": tk.StringVar(),
+##                            "confirm_password": tk.StringVar(),
+                            "email": tk.StringVar()}
+                            
+        #frame is the window
+        container=tk.Frame(self)
+        
+        container.pack(side="top", fill="both", expand=True)
+        
+        container.grid_rowconfigure(0,weight=1)
+        container.grid_columnconfigure(0,weight=1)
+        
+        self.frames={}
+
+        for c in (Login, Incorrect, ForgotPass, Details, Register, MainMenu, Assessment, Achievement, ClassAverage, Teachers):
+            
+            frame = c(container, self)
+
+            self.frames[c]=frame
+
+            frame.grid(row=0, column=0, sticky="nesw")
+
+        self.show_frame(Login)
+
+    def show_frame(self,cont):
+        frame=self.frames[cont]
+        frame.tkraise()
+
+
+    def createconnection():
+        with sql.connect("ChemVision.db") as db:
+            global cursor
+            cursor=db.cursor()
+        cursur.execute('''CREATE TABLE IF NOT EXISTS users(userID PRIMARY KEY,username VARCHAR(20),password VARCHAR(12),email VARCHAR(255),forename VARCHAR(20),surname VARCHAR(20),dob VARCHAR(10)), class/year VARCHAR(10))''')    
+        createTeachers=("""CREATE TABLE IF NOT EXISTS teachers (teachersID INTEGER PRIMARY KEY, forename VARCHAR(20), surname VARCHAR(20), username VARCHAR(20), password VARCHAR(20), email VARCHAR(255))""")
+
+        cursor.execute(createStudent)
+        cursor.execute(createTeachers)
+        db.commit()
+        db.close()
+
+        
+class Login(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        
+        title = tk.Label(self, text="CHEMVISION", font=("Helvetica", 30), fg ="Purple")
+        title.grid(row=0,column=0) 
+
+        subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 15))
+        subheading.grid(row=1,column=0)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+
+        name1 = tk.StringVar()
+        name=tk.Label(self, text='USERNAME:')
+        n1=tk.Entry(self, width=20)
+        name.grid(row=0,column=2)
+        n1.grid(row=0,column=3)
+
+        password=tk.Label(self, text='PASSWORD:')
+        p1=tk.Entry(self, show="*", width=20)
+        password.grid(row=1,column=2)
+        p1.grid(row=1,column=3)
+
+        rem=tk.Checkbutton(self, text="Remember password")
+        rem.grid(row=2, column=3)
+
+        loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White", command=lambda: self.create_user(controller, name1.get()))
+        loginbutton.grid(row=3, column=3)
+
+        forgotbutton=tk.Button(self, text="FORGOT YOUR PASSWORD?", command=lambda: controller.show_frame(ForgotPass))
+        forgotbutton.grid(row=4, column=3)
+
+        newbutton=tk.Button(self, text="DON'T HAVE A LOGIN? REGISTER HERE",fg ="Purple", command=lambda: controller.show_frame(Details))
+        newbutton.grid(row=5, column=3)
+        
+        exitbutton=tk.Button(self, text="Exit", width=15, command=self.client_exit)
+        exitbutton.grid(row=6, column=6, pady=20, padx=8)
+        
+    def client_exit(self):
+        answer=messagebox.askyesnocancel("Exit", "Do you really wish to exit ChemVision?")
+        if(answer):
+            exit()
+
+    def create_user(self, controlle, user):
+        if entry(user) is True:
+            controller.show_frame(MainMenu)
+
+
+
+class Incorrect(tk.Frame): #this class, will be for if the user enters incorrect login details, and they will be asked to try again
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        title = tk.Label(self, text="CHEMVISION", font=("Helvetica", 30), fg ="Purple")
+        title.grid(row=0,column=0)  #pack puts it into the window
+
+        subheading = tk.Label(self, text="The Chemistry revision app", font=("Helvetica", 10))
+        subheading.grid(row=1,column=0)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+
+        name=tk.Label(self, text='USERNAME:')
+        n1=tk.Entry(self, width=20)
+        name.grid(row=0,column=2)
+        n1.grid(row=0,column=3)
+
+        password=tk.Label(self, text='PASSWORD:')
+        p1=tk.Entry(self, show="*", width=20)
+        password.grid(row=1,column=2)
+        p1.grid(row=1,column=3)
+
+        rem=tk.Checkbutton(self, text="Remember password")
+        rem.grid(row=2, column=3)
+
+        incorrect=tk.Label(self, text="Your details are incorrect. Please try again or click ‘Forgot your password?’ below", fg ="Red")
+        incorrect.grid(row=3, column=3)
+
+        loginbutton=tk.Button(self, text='LOG IN', background='Purple',fg ="White",command=lambda: controller.show_frame(MainMenu))
+        loginbutton.grid(row=4, column=3)
+
+        forgotbutton=tk.Button(self, text="FORGOT YOUR PASSWORD?", command=lambda: controller.show_frame(ForgotPass))
+        forgotbutton.grid(row=5, column=3)
+
+        newbutton=tk.Button(self, text="DON'T HAVE A LOGIN? REGISTER HERE",fg ="Purple", command=lambda: controller.show_frame(Details))
+        newbutton.grid(row=7, column=3)
+
+
+
+
+class ForgotPass(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        title = tk.Label(self, text="Forgot password:", font=("Helvetica", 15))
+        title.grid(row=0,column=0)  #pack puts it into the window
+
+        subheading = tk.Label(self, text="If you are unsure about your login details,\n please enter your email address below.\n A confirmation email will be sent\n to you with your new password.", font=("Helvetica", 10))
+        subheading.grid(row=1,column=0)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+
+        back = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(Login))
+        back.grid(row=6, column=2)
+
+        email=tk.Label(self, text='Email address:')
+        e1=tk.Entry(self)
+        email.grid(row=0,column=2,sticky = "E")
+        e1.grid(row=0,column=3)
+
+        np=tk.Label(self, text='New password:')
+        np1=tk.Entry(self)
+        np.grid(row=1,column=2,sticky = "E")
+        np1.grid(row=1,column=3)
+
+        c=tk.Label(self, text='Confirm new password:')
+        c1=tk.Entry(self)
+        c.grid(row=3,column=2,sticky = "E")
+        c1.grid(row=3,column=3)
+
+        forgotbutton=tk.Button(self, text='Reset password', background='Purple',fg ="White", command= lambda: controller.show_frame(Login))
+        forgotbutton.grid(row=4, column=3)
+
+
+
+class Details(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller=controller #function to be used in different frames
+
+        subheading = tk.Label(self, text="Details Form", font=("Helvetica", 20))
+        subheading.grid(row=0,column=0)
+
+        back = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(Login))
+        back.grid(row=8, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+
+        newname=tk.Label(self, text='Forename:')
+        n1=tk.Entry(self,textvariable=self.controller.shared_data["forename"])
+        newname.grid(row=0,column=2,sticky = "E")
+        n1.grid(row=0,column=3)
+
+        sn=tk.Label(self, text='Surname:')
+        sn1=tk.Entry(self, textvariable=self.controller.shared_data["surname"])
+        sn.grid(row=1,column=2,sticky = "E")
+        sn1.grid(row=1,column=3)
+
+        dob=tk.Label(self, text='DOB:')
+        d1=tk.Entry(self, textvariable=self.controller.shared_data["dob"])
+        dob.grid(row=2,column=2,sticky = "E")
+        d1.grid(row=2,column=3)
+
+        year=tk.Label(self, text='Class/Year:')
+        year.grid(row=3,column=2,sticky = "E")
+
+        # Entry for the class in which the student/teacher is apart of and the variable it is stored in
+        year1 = ["12Ch1", "12Ch2", "13Ch1", "13Ch2"]
+        droplist = tk.OptionMenu(self, self.controller.shared_data["Class/Year"], *year1)
+        droplist.config(width=20, border="0")
+        self.controller.shared_data["Class/Year"].set("Select your class/year")
+        droplist.grid(row=3, column=3)
+
+
+
+
+        tk.Radiobutton(self, text="Student", variable=self.controller.shared_data["var1"], value=1).grid(row=4, column=3)  
+        tk.Radiobutton(self, text="Teacher", variable=self.controller.shared_data["var1"], value=2).grid(row=4, column=4)
+        
+        school= tk.Label(self, text="School:")
+        school.grid(row=4, column=2, pady=20)
+
+##        newbutton=tk.Button(self, text='CONFIRM', background='Purple',fg ="White",command= lambda: controller.show_frame(Register))
+##        newbutton.grid(row=4, column=3)
+
+        newbutton = tk.Button(self, text="CONFIRM",
+                                  command=lambda: self.detail(self.controller, self.controller.shared_data["forename"].get(),
+                                                                self.controller.shared_data["surname"].get(),self.controller.shared_data["dob"].get(),
+                                                                self.controller.shared_data["Class/Year"].get(),self.controller.shared_data["var1"].get()))
+        newbutton.config(background='Purple',fg ="White")
+        newbutton.grid(row=7, column=5)
+
+    def detail(self, controller, forename, surname, dob, classyear, var1):  
+        if details(forename, surname, dob, classyear, var1) is True:
+            controller.show_frame(Register)
+
+
+class Register(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        title = tk.Label(self, text="Registration Form:", font=("Helvetica", 20))
+        title.grid(row=0,column=0)  #pack puts it into the window
+
+        subheading = tk.Label(self, text="Password must contain at least 8 \n characters including uppercase and lowercase \n letters, numbers and a special character.", font=("Helvetica", 10))
+        subheading.grid(row=1,column=0)
+
+        back = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(Details))
+        back.grid(row=6, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+
+        newn=tk.Label(self, text='Username:')
+        n1=tk.Entry(self, textvariable = self.controller.shared_data["username"])
+        newn.grid(row=0,column=2,sticky = "E")
+        n1.grid(row=0,column=3)
+
+        email=tk.Label(self, text='Email:')
+        e1=tk.Entry(self, textvariable = self.controller.shared_data["email"])
+        email.grid(row=1,column=2,sticky = "E")
+        e1.grid(row=1,column=3)
+
+        p=tk.Label(self, text='Password:')
+        p1=tk.Entry(self, textvariable = self.controller.shared_data["password"])
+        p.grid(row=2,column=2,sticky = "E")
+        p1.grid(row=2,column=3)
+
+        c=tk.Label(self, text='Confirm password:')
+        c1=tk.Entry(self, textvariable = self.controller.shared_data["confirm_password"])
+        c.grid(row=3,column=2,sticky = "E")
+        c1.grid(row=3,column=3)
+
+
+        #newbutton=tk.Button(self, text='Register', background='Purple',fg ="White",command= lambda: self.register1(self.controller,self.controller.shared_data["username"].get(),self.controller.shared_data["password"].get(),self.controller.shared_data["confirm_password"].get(),self.controller.shared_data["email"].get())
+        #newbutton.grid(row=4, column=3)
+                            
+    def register1(self,controller,username,password,confirm_password,email):
+        if register(username,password,confirm_password,email) is True:
+            controller.show_frame(MainMenu)
+    
+        
+class MainMenu(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        assbutton = tk.Button(self, text="ASSESSMENTS",font=("Helvetica bold", 15), bg="White", command= lambda: controller.show_frame(Assessment))
+        assbutton.pack(pady=10, padx=20)
+
+        achbutton = tk.Button(self, text="ACHIEVEMENTS", font=("Helvetica bold", 15), bg="White",command= lambda: controller.show_frame(Achievement))
+        achbutton.pack(pady=10, padx=20)
+   
+        classbutton = tk.Button(self, text="CLASS AVERAGE", font=("Helvetica bold", 15), bg="White", command= lambda: controller.show_frame(ClassAverage))
+        classbutton.pack(pady=10, padx=20)
+
+        teachbutton = tk.Button(self, text="TEACHERS COMMENTS", font=("Helvetica bold", 15),bg="White", command= lambda: controller.show_frame(Teachers))
+        teachbutton.pack(pady=10, padx=20)
+
+        exitbutton=tk.Button(self, text="Exit", width=15, command=self.client_exit)
+        exitbutton.pack(pady=20, padx=8)
+        
+    def client_exit(self):
+        answer=messagebox.askyesnocancel("Exit", "Do you really wish to exit ChemVision?")
+        if(answer):
+            exit() 
+
+class Assessment(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        heading = tk.Label(self, text="ASSESSMENT", font=("Helvetica", 30), fg ="Purple")
+        heading.grid(row=0,column=2)
+
+        assbutton = tk.Button(self, text="Back", width=10, background='Yellow', command= lambda: controller.show_frame(MainMenu))
+        assbutton.grid(row=5, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+        
+        title1= tk.Label(self, text="Current tasks: ", font=("Helvetica", 15))
+
+        title1.grid(row=1, column=0,sticky = "E")
+
+        title2= tk.Label(self, text="Due this week: ", font=("Helvetica", 15))
+
+        title2.grid(row=2, column=0,sticky = "E")
+
+        title3= tk.Label(self, text="Due later: ", font=("Helvetica", 15))
+
+        title3.grid(row=3, column=0,sticky = "E")
+
+        title4= tk.Label(self, text="Progress: ", font=("Helvetica", 15))
+
+        title4.grid(row=4, column=0,sticky = "E")
+
+class Achievement(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        
+        heading = tk.Label(self, text="ACHIEVEMENTS", font=("Helvetica", 20), fg ="Purple")
+        heading.grid(row=0,column=2)
+
+        achbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
+        achbutton.grid(row=4, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+
+        title1= tk.Label(self, text="Highest score achieved: ",font=("Helvetica", 15))
+
+        title1.grid(row=1, column=0,sticky = "E")
+
+        title2= tk.Label(self, text="Started questions: ",font=("Helvetica", 15))
+
+        title2.grid(row=2, column=0,sticky = "E")
+
+        title3= tk.Label(self, text="Questions finished: ",font=("Helvetica", 15))
+
+        title3.grid(row=3, column=0,sticky = "E")
+
+class ClassAverage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+        heading = tk.Label(self, text="CLASS AVERAGE", font=("Helvetica", 20), fg ="Purple")
+        heading.grid(row=0,column=2)
+
+        classbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
+        classbutton.grid(row=4, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+
+        title1= tk.Label(self, text="My average: ",font=("Helvetica", 15))
+
+        title1.grid(row=1, column=0,sticky = "E")
+
+        title2= tk.Label(self, text="Class overall average: ",font=("Helvetica", 15))
+
+        title2.grid(row=2, column=0,sticky = "E")
+
+
+class Teachers(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+
+
+        heading = tk.Label(self, text="TEACHERS COMMENT", font=("Helvetica", 20),fg ="Purple")
+        heading.grid(row=0,column=2)
+
+        teachbutton = tk.Button(self, text="Back", width=10, background='Yellow',command= lambda: controller.show_frame(MainMenu))
+        teachbutton.grid(row=4, column=2)
+
+        ttk.Separator(self, orient="vertical").grid(row=0, column=1, rowspan=8, sticky="ns")
+
+        title1= tk.Label(self, text="What went well: ",font=("Helvetica", 15))
+
+        title1.grid(row=1, column=0,sticky = "E")
+
+        title2= tk.Label(self, text="What could you do\n next time to improve: ",font=("Helvetica", 15))
+
+        title2.grid(row=2, column=0,sticky = "E")
+
+app=ChemVision()
+app.mainloop()
