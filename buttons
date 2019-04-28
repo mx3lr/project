@@ -2,8 +2,9 @@ import tkinter as tk
 import sqlite3 as sql
 from tkinter import ttk
 from tkinter import messagebox
-##from newteachnstud import entry
-from register_backend import  details
+#from regfile import entry
+from regfile import  details
+from regfile import  register
 
 class ChemVision(tk.Tk):     #this is the base line, to the rest of the application, so everytime you add a page.
     #to initialise upon a class, using this will run immediately. 
@@ -17,7 +18,7 @@ class ChemVision(tk.Tk):     #this is the base line, to the rest of the applicat
                             "var1": tk.IntVar(),
                             "username": tk.StringVar(),
                             "password": tk.StringVar(),
-##                            "confirm_password": tk.StringVar(),
+                            "confirm_password": tk.StringVar(),
                             "email": tk.StringVar()}
                             
         #frame is the window
@@ -58,7 +59,7 @@ class ChemVision(tk.Tk):     #this is the base line, to the rest of the applicat
         db.close()
 
         
-class Login(tk.Frame):
+class Login(tk.Frame):  #class for my login page containing all the name of the application, with all the buttons
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -102,7 +103,7 @@ class Login(tk.Frame):
         if(answer):
             exit()
 
-    def create_user(self, controlle, user):
+    def create_user(self, controller, user):
         if entry(user) is True:
             controller.show_frame(MainMenu)
 
@@ -149,7 +150,7 @@ class Incorrect(tk.Frame): #this class, will be for if the user enters incorrect
 
 
 
-class ForgotPass(tk.Frame):
+class ForgotPass(tk.Frame): #this class is for the user to reset their password, if they have forgotten it. User will be directed to this page if they click onto the forgot your password button on the main page.
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -185,7 +186,7 @@ class ForgotPass(tk.Frame):
 
 
 
-class Details(tk.Frame):
+class Details(tk.Frame): #this class, holds the GUI for the details form page and links this to the details function on another python file
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -233,9 +234,6 @@ class Details(tk.Frame):
         school= tk.Label(self, text="School:")
         school.grid(row=4, column=2, pady=20)
 
-##        newbutton=tk.Button(self, text='CONFIRM', background='Purple',fg ="White",command= lambda: controller.show_frame(Register))
-##        newbutton.grid(row=4, column=3)
-
         newbutton = tk.Button(self, text="CONFIRM",
                                   command=lambda: self.detail(self.controller, self.controller.shared_data["forename"].get(),
                                                                 self.controller.shared_data["surname"].get(),self.controller.shared_data["dob"].get(),
@@ -248,7 +246,7 @@ class Details(tk.Frame):
             controller.show_frame(Register)
 
 
-class Register(tk.Frame):
+class Register(tk.Frame): #this class, holds the GUI for the register form page and links this to the register function on another python file
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -281,20 +279,19 @@ class Register(tk.Frame):
         p1.grid(row=2,column=3)
 
         c=tk.Label(self, text='Confirm password:')
-        c1=tk.Entry(self, textvariable = self.controller.shared_data["confim_password"])
+        c1=tk.Entry(self, textvariable = self.controller.shared_data["confirm_password"])
         c.grid(row=3,column=2,sticky = "E")
         c1.grid(row=3,column=3)
 
-
-        newbutton=tk.Button(self, text='Register', background='Purple',fg ="White",command= lambda: self.register1(self.controller,self.controller.shared_data["username"].get(),self.controller.shared_data["password"].get(),self.controller.shared_data["confirm_password"].get(),self.controller.shared_data["email"].get())
+        newbutton=tk.Button(self, text='Register', background='Purple',fg ="White",command= lambda: self.register(self.controller,self.controller.shared_data["username"].get(),self.controller.shared_data["password"].get(),self.controller.shared_data["confirm_password"].get(),self.controller.shared_data["email"].get(),self.controller.shared_data["var1"].get()))
         newbutton.grid(row=4, column=3)
                             
-    def register1(self,controller,username,password,confirm_password,email):
-        if register(username,password,confirm_password,email) is True:
+    def register(self,controller,username,password,confirm_password,email,var1):
+        if register(username,password,confirm_password,email,var1) is True:
             controller.show_frame(MainMenu)
     
         
-class MainMenu(tk.Frame):
+class MainMenu(tk.Frame): #class for the GUI of the main menu page, where the user can select what page they wish to go to 
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -319,7 +316,7 @@ class MainMenu(tk.Frame):
         if(answer):
             exit() 
 
-class Assessment(tk.Frame):
+class Assessment(tk.Frame): #GUI storing all the the questions the user has yet to answer, and when they are due
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -348,7 +345,7 @@ class Assessment(tk.Frame):
 
         title4.grid(row=4, column=0,sticky = "E")
 
-class Achievement(tk.Frame):
+class Achievement(tk.Frame): #GUI storing the users acheivement made throughout
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -373,7 +370,7 @@ class Achievement(tk.Frame):
 
         title3.grid(row=3, column=0,sticky = "E")
 
-class ClassAverage(tk.Frame):
+class ClassAverage(tk.Frame): #GUI where the user can keep up with their fellow students, and see where they are on the class average
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -395,7 +392,7 @@ class ClassAverage(tk.Frame):
         title2.grid(row=2, column=0,sticky = "E")
 
 
-class Teachers(tk.Frame):
+class Teachers(tk.Frame): #GUI where the teachers can view their students achievements, and comment on their work.
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -419,4 +416,3 @@ class Teachers(tk.Frame):
 
 app=ChemVision()
 app.mainloop()
-
