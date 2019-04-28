@@ -1,7 +1,7 @@
 from tkinter import *
 import time
 
-class StopWatch(Frame):                                                                  
+class StopWatch(Frame): #stopwatch for the user to see ho long they have spent on a set of questions                                                                  
     def __init__(self, parent=None, **kwargs):        
         Frame.__init__(self, parent, **kwargs)
         self.start = 0.0        
