@@ -1,15 +1,9 @@
-import hashlib
+import bcrypt
 
-def hashpass(password):
-    hash1=hashlib.sha256(txt.encode(password))
-    print('Hashed password:', hash1.hexdigest())
+def bcrpytchecker(): #hashcheck to encode password
+    password=input("Enter pass")
+    hashed=bcrypt.hashpw(password.encode("utf8"), bcrypt.gensalt())
+    print(hashed)
+    print(len(hashed))
 
-def mainpass():
-    password=input('Enter your password:')
-    hashpass(password)
-
-if __name__ == '__mainpass__':      #runs the program
-    mainpass()
-    
-
-    
+bcrpytchecker()    
