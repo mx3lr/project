@@ -124,7 +124,8 @@ def check2(password, confirm_password):#help from https://trinket.io/embed/pytho
         messagebox.showerror("Password", "Password don't match one stored in database")  
         return False
                                 
-#not sure how to do email validation
+
+
 #for email validation i got help from stack overflow, as I was struggling to understand what to do for this part
 #a useful regex was used for email validation, it is a string patternt that descibe text :'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$'
 
@@ -165,4 +166,5 @@ def register(username, password,confirm_password,email,var1):  #help from https:
         else:
             return False
     else:
-        return False
+        return False    
+    
