@@ -1,4 +1,4 @@
-import bcrypt
+iimport bcrypt
 import tkinter as tk
 from tkinter import messagebox
 from regfile import check2
@@ -14,10 +14,10 @@ def logins(username, password):  #checks if the students and teachers usernmae i
         return False
 
 
-def forgot(email, np, confirm_pass):  #storing the users new password, using a hash check
-    if check2(np, confirm_pass) is True: 
+def forgot(email, np, confirm_password):  #storing the users new password, using a hash check
+    if check2(np, confirm_password) is True: 
         store = bcrypt.hashpw(np.encode("utf8"), bcrypt.gensalt())
-        if (users_email(email) is not False and teachers_email(email) is False):
+        if (users_email(email) is not False and teachers_email(email) is False):  #CHECK 3 EMAIL CHANGE
             update = ("UPDATE users SET password=? WHERE email=?")
             cursor.execute(update, [(store), (email)])
             db.commit()
@@ -35,25 +35,25 @@ def forgot(email, np, confirm_pass):  #storing the users new password, using a h
 
 def user_check(username, password):
     # Used for the login function this checks against the username and password the user enters in students table
-    find_student = ("SELECT username,password FROM users WHERE username = ?")
+    studentfinder = ("SELECT username,password FROM users WHERE username = ?")
     # sql statement for getting the username and password
-    cursor.execute(find_student, [(username)])
-    check = cursor.fetchone()
-    if checking is not None:
-        db_user, db_password = checking 
-        if (username == db_user) and (bcrypt.checkpw(password.encode("utf8"), db_password) is True):
+    cursor.execute(studentfinder, [(username)])
+    check1 = cursor.fetchone()
+    if check1 is not None:
+        user1, db_password = check1
+        if (username == user1) and (bcrypt.checkpw(password.encode("utf8"), db_password) is True):
             return True 
     else:
         return False
 
 
 def teacher_check(username, password):#checks the username and password entered with the teachers table
-    find_teacher = ("SELECT username,password FROM Teachers WHERE username = ?")
-    cursor1.execute(find_teacher, [(username)]) #executes the above sql code
-    check1 = cursor1.fetchone() 
-    if check1 is not None: 
-        db_user1, db_password1 = check1 
-        if (username == db_user1) and (bcrypt.checkpw(password.encode("utf8"), db_password1) is True):
+    teacherfinder = ("SELECT username,password FROM Teachers WHERE username = ?")
+    cursor1.execute(teacherfinder, [(username)]) 
+    check2 = cursor1.fetchone() 
+    if check2 is not None: 
+        user2, db_password1 = check2 
+        if (username == user2) and (bcrypt.checkpw(password.encode("utf8"), db_password1) is True):
             return True
     else:
         return False
