@@ -6,6 +6,12 @@ from tkinter import messagebox
 from regfile import  details
 from regfile import  register
 
+#creating my classes, i had help from the following links :
+#https://www.youtube.com/watch?v=A0gaXfM1UN0
+#https://www.youtube.com/watch?v=Y6cir7P3YUk&t=43s
+#to help me understand how to create and work with several windows
+#it also helped me understand each bit of code used, and how to make it my own. Linking my own GUI together.
+
 class ChemVision(tk.Tk):     #this is the base line, to the rest of the application, so everytime you add a page.
     #to initialise upon a class, using this will run immediately. 
     def __init__(self, *args, **kwargs):
